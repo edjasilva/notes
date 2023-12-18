@@ -26,7 +26,9 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        item= new NoteItem(1,"sla", "sla", LocalDateTime.now(), LocalDateTime.now() );
+        // obter o item passado da atividade anterior
+        Intent intent =getIntent();
+        item =(NoteItem) intent.getSerializableExtra("item");
 
         setupComponents();
     }
