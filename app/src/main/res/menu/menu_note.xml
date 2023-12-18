@@ -2,12 +2,14 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/action_save_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/check_circle_icon"
         android:title="@string/save_menu"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_delete_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/delete_icon"

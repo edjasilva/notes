@@ -20,7 +20,7 @@
         app:titleTextColor="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notes_list"
+        android:id="@+id/action_notes_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
