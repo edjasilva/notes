@@ -19,14 +19,6 @@
         app:title="@string/app_name"
         app:titleTextColor="@color/black" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/add_circle_fill0_wght400_grad0_opsz24"
-        tools:layout_editor_absoluteX="315dp"
-        tools:layout_editor_absoluteY="16dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_list"
         android:layout_width="0dp"

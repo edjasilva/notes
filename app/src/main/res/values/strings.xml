@@ -5,4 +5,5 @@
     <string name="title_hint">Write a title here</string>
     <string name="multiline_hint">Write a note here</string>
     <string name="date_hint">Date</string>
+    <string name="add_menu">New note</string>
 </resources>
