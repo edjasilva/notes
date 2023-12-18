@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.GregorianCalendar;
 
 import pt.iade.edjasilva.notes.models.NoteItem;
 
@@ -61,9 +58,9 @@ public class NoteActivity extends AppCompatActivity {
 
     private void setupComponents(){
         setSupportActionBar(findViewById(R.id.toolbar));
-        title_edit=(EditText) findViewById(R.id.title_edit);
-        notes_edit=(EditText) findViewById(R.id.notes_edit);
-        date_text=(EditText) findViewById(R.id.date_text);
+        title_edit=(EditText) findViewById(R.id.title_label);
+        notes_edit=(EditText) findViewById(R.id.notes_label);
+        date_text=(EditText) findViewById(R.id.date_label);
 
         populateView();
     }

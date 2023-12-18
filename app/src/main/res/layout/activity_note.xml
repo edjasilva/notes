@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <EditText
-            android:id="@+id/title_edit"
+            android:id="@+id/title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title">
 
         <EditText
-            android:id="@+id/notes_edit"
+            android:id="@+id/notes_label"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -81,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/date_text"
+            android:id="@+id/date_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
