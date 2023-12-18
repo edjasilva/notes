@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Notes</string>
     <string name="plus_icon">Plus</string>
+    <string name="edit_notes">Edit a Notes</string>
+    <string name="title_hint">Write a title here</string>
+    <string name="multiline_hint">Write a note here</string>
+    <string name="date_hint">Date</string>
 </resources>
