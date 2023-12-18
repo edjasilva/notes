@@ -6,4 +6,7 @@
     <string name="multiline_hint">Write a note here</string>
     <string name="date_hint">Date</string>
     <string name="add_menu">New note</string>
+    <string name="save_menu">Save note</string>
+    <string name="delete_menu">Delete note</string>
+
 </resources>
