@@ -2,6 +2,7 @@ package pt.iade.edjasilva.notes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,14 +11,17 @@ import android.view.Menu;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import pt.iade.edjasilva.notes.adapters.NoteItemAdapter;
 import pt.iade.edjasilva.notes.models.NoteItem;
 
 public class MainActivity extends AppCompatActivity {
     protected RecyclerView itemsListView;
+    protected NoteItemAdapter noteRowAdapter;
     protected ArrayList<NoteItem> itemsList;
 
     @Override
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent= new Intent(MainActivity.this,NoteActivity.class);
 
 
-            intent.putExtra("item", new NoteItem(1, "Iam Pretty", "first", LocalDateTime.now()));
+            intent.putExtra("item", new NoteItem());
             startActivity(intent);
 
             return true;
@@ -54,7 +58,34 @@ public class MainActivity extends AppCompatActivity {
     private void setupComponents(){
         setSupportActionBar(findViewById(R.id.toolbar));
 
+        // Set up row adapter with our items list.
+        noteRowAdapter = new NoteItemAdapter(MainActivity.this, itemsList);
+        noteRowAdapter.setOnClickListener(new NoteItemAdapter.ViewHolder.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent= new Intent(MainActivity.this,NoteActivity.class);
+
+
+                intent.putExtra("item", itemsList.get(position));
+                startActivity(intent);
+
+            }
+        });
+
+
         itemsListView=(RecyclerView) findViewById(R.id.notes_list);
         itemsListView.setLayoutManager(new LinearLayoutManager(this));
+        itemsListView.setAdapter(noteRowAdapter);
     }
+
+
+
+
+
+
+
+
+
+
+
 }

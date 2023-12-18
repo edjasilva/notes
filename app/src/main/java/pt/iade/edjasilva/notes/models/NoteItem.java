@@ -2,18 +2,20 @@ package pt.iade.edjasilva.notes.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 public class NoteItem implements Serializable {
     private int id;
     private String title;
     private String content;
-    private LocalDateTime creationDate;
-    private LocalDateTime modifiedDate;
+    private Date creationDate;
+    private Date modifiedDate;
 
-public NoteItem(int i, String iamPretty, String first, LocalDateTime now){
-    this(0, "", "", LocalDateTime.now(), LocalDateTime.now());
+public NoteItem(){
+    this(0, "", "", new Date(), new Date());
 }
-    public NoteItem(int id, String title, String content, LocalDateTime creationDate, LocalDateTime modifiedDate){
+    public NoteItem(int id, String title, String content, Date creationDate, Date modifiedDate){
         this.id=id;
         this.title=title;
         this.content=content;
@@ -26,9 +28,9 @@ public NoteItem(int i, String iamPretty, String first, LocalDateTime now){
 
 
     // Criar listas de forma estática
-    items.add(new NoteItem(1,"iam pretty",  "",   LocalDateTime.now(),LocalDateTime.now() ));
-    items.add(new NoteItem(2, "you are pretty", "idk",LocalDateTime.now(),LocalDateTime.now() ));
-    return items;
+        items.add(new NoteItem(1, "iam pretty", "", new Date(), new Date()));
+        items.add(new NoteItem(2, "you are pretty", "idk", new Date(), new Date()));
+        return items;
 
     }
 
@@ -36,9 +38,25 @@ public NoteItem(int i, String iamPretty, String first, LocalDateTime now){
 
     //busca os dados do webserver usando o id e o populate object
 
-    return new NoteItem(id, "", "",LocalDateTime.now(), LocalDateTime.now() );
+
+        return new NoteItem(id, "", "", new Date(), new Date());
 
     }
+
+
+    public void save(){
+    if(id==0){
+        id=new Random().nextInt(1000)+1;
+    }else {
+
+
+    }
+
+    }
+
+
+
+
 
 
 
@@ -53,11 +71,11 @@ public NoteItem(int i, String iamPretty, String first, LocalDateTime now){
         return content;
     }
 
-    public LocalDateTime getCreationDate(){
+    public Date getCreationDate(){
         return creationDate;
     }
 
-    public LocalDateTime getModifiedDate(){
+    public Date getModifiedDate(){
         return modifiedDate;
     }
 
@@ -71,11 +89,11 @@ public NoteItem(int i, String iamPretty, String first, LocalDateTime now){
         this.content=content;
     }
 
-    public void setCreationDate(LocalDateTime creationDate){
+    public void setCreationDate(Date creationDate){
         this.creationDate=creationDate;
     }
 
-    public void setModifiedDate(LocalDateTime modifiedDate){
+    public void setModifiedDate(Date modifiedDate){
         this.modifiedDate=modifiedDate;
     }
 }

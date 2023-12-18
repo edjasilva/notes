@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import pt.iade.edjasilva.notes.models.NoteItem;
@@ -58,24 +59,25 @@ public class NoteActivity extends AppCompatActivity {
 
     private void setupComponents(){
         setSupportActionBar(findViewById(R.id.toolbar));
-        title_edit=(EditText) findViewById(R.id.title_label);
-        notes_edit=(EditText) findViewById(R.id.notes_label);
-        date_text=(EditText) findViewById(R.id.date_label);
+        title_edit=(EditText) findViewById(R.id.titleLabel);
+        notes_edit=(EditText) findViewById(R.id.notesLabel);
+        date_text=(EditText) findViewById(R.id.dateLabel);
 
         populateView();
     }
     protected void populateView(){
         title_edit.setText(item.getTitle());
         notes_edit.setText(item.getContent());
-
-
         // Formatando LocalDateTime para String usando DateTimeFormatter
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedModifiedDate = item.getModifiedDate().format(formatter);
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String formattedModifiedDate = formatter.format(item.getModifiedDate());
         date_text.setText(formattedModifiedDate);
 
 
+    }
+    protected void commitView(){
+        item.setTitle(title_edit.getText().toString());
+        item.setContent(notes_edit.getText().toString());
+        item.setModifiedDate(date_text.getText());
     }
 }

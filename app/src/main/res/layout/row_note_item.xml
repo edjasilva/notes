@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/title_label"
+            android:id="@+id/titleLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -27,7 +27,7 @@
             tools:text="title" />
 
         <EditText
-            android:id="@+id/notes_label"
+            android:id="@+id/notesLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -37,7 +37,7 @@
             tools:text="content" />
 
         <EditText
-            android:id="@+id/date_label"
+            android:id="@+id/dateLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
