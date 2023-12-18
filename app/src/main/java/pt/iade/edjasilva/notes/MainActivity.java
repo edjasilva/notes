@@ -1,6 +1,7 @@
 package pt.iade.edjasilva.notes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,9 +21,12 @@ import pt.iade.edjasilva.notes.adapters.NoteItemAdapter;
 import pt.iade.edjasilva.notes.models.NoteItem;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int EDITOR_ACTIVITY_RETURN_ID = 1;
     protected RecyclerView itemsListView;
     protected NoteItemAdapter noteRowAdapter;
     protected ArrayList<NoteItem> itemsList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +45,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==EDITOR_ACTIVITY_RETURN_ID){
+            if(resultCode==AppCompatActivity.RESULT_OK){
+                int position=data.getIntExtra("position", -1);
+                NoteItem updateItem =(NoteItem) data.getSerializableExtra("item");
+
+                if(position== -1) {
+
+
+                    itemsList.add(updateItem);
+                    noteRowAdapter.notifyItemInserted(itemsList.size() - 1);
+                } else {
+
+                    //updates
+                    itemsList.set(position, updateItem);
+                    noteRowAdapter.notifyItemChanged(position);
+                }
+            }
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.action_new_note){
             Intent intent= new Intent(MainActivity.this,NoteActivity.class);
-
+            intent.putExtra("position", -1);
 
             intent.putExtra("item", new NoteItem());
             startActivity(intent);
@@ -64,10 +92,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent= new Intent(MainActivity.this,NoteActivity.class);
-
-
+                intent.putExtra("position", position);
                 intent.putExtra("item", itemsList.get(position));
-                startActivity(intent);
+                startActivityForResult(intent, EDITOR_ACTIVITY_RETURN_ID);
 
             }
         });

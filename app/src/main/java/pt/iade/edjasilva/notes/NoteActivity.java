@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import pt.iade.edjasilva.notes.models.NoteItem;
 
@@ -18,6 +19,7 @@ public class NoteActivity extends AppCompatActivity {
     protected EditText title_edit;
     protected EditText notes_edit;
     protected EditText date_text;
+    protected int listPosition;
     protected NoteItem item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class NoteActivity extends AppCompatActivity {
 
         // obter o item passado da atividade anterior
         Intent intent =getIntent();
+        listPosition=intent.getIntExtra("position", -1);
         item =(NoteItem) intent.getSerializableExtra("item");
 
         setupComponents();
@@ -45,6 +48,15 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.action_save_notes){
+            commitView();
+            this.item.save();
+
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("position", this.listPosition);
+            returnIntent.putExtra("item", this.item);
+            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+
+
            finish();
             return true;
         } else if (item.getItemId()==R.id.action_delete_notes) {
@@ -78,6 +90,6 @@ public class NoteActivity extends AppCompatActivity {
     protected void commitView(){
         item.setTitle(title_edit.getText().toString());
         item.setContent(notes_edit.getText().toString());
-        item.setModifiedDate(date_text.getText());
+        item.setModifiedDate((Date) date_text.getText());
     }
 }
