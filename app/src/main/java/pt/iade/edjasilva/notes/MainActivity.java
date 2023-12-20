@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 
 import android.os.Bundle;
@@ -22,7 +23,8 @@ import pt.iade.edjasilva.notes.models.NoteItem;
 
 public class MainActivity extends AppCompatActivity {
     private static final int EDITOR_ACTIVITY_RETURN_ID = 1;
-    protected RecyclerView itemsListView;
+    public static final int RESULT_DELETE = 2;
+    protected RecyclerView notes_list;
     protected NoteItemAdapter noteRowAdapter;
     protected ArrayList<NoteItem> itemsList;
 
@@ -47,6 +49,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.action_new_note){
+            Intent intent= new Intent(MainActivity.this,NoteActivity.class);
+            intent.putExtra("position", -1);
+
+            intent.putExtra("item", new NoteItem());
+            startActivityForResult(intent, EDITOR_ACTIVITY_RETURN_ID);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -59,36 +74,34 @@ public class MainActivity extends AppCompatActivity {
 
 
                     itemsList.add(updateItem);
+
                     noteRowAdapter.notifyItemInserted(itemsList.size() - 1);
                 } else {
 
                     //updates
                     itemsList.set(position, updateItem);
+
                     noteRowAdapter.notifyItemChanged(position);
+                }
+            }else if (resultCode == RESULT_DELETE) {
+                int positionToDelete = data.getIntExtra("position", -1);
+                if (positionToDelete != -1) {
+                    itemsList.remove(positionToDelete);
+                    noteRowAdapter.notifyItemRemoved(positionToDelete);
                 }
             }
         }
     }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.action_new_note){
-            Intent intent= new Intent(MainActivity.this,NoteActivity.class);
-            intent.putExtra("position", -1);
-
-            intent.putExtra("item", new NoteItem());
-            startActivity(intent);
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void setupComponents(){
         setSupportActionBar(findViewById(R.id.toolbar));
+        notes_list = findViewById(R.id.notes_list);
+        notes_list.setLayoutManager(new LinearLayoutManager(this));
+
 
         // Set up row adapter with our items list.
         noteRowAdapter = new NoteItemAdapter(MainActivity.this, itemsList);
-        noteRowAdapter.setOnClickListener(new NoteItemAdapter.ViewHolder.ItemClickListener() {
+        noteRowAdapter.setOnClickListener(new NoteItemAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent= new Intent(MainActivity.this,NoteActivity.class);
@@ -98,11 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-        itemsListView=(RecyclerView) findViewById(R.id.notes_list);
-        itemsListView.setLayoutManager(new LinearLayoutManager(this));
-        itemsListView.setAdapter(noteRowAdapter);
+        if (notes_list != null) {
+            notes_list.setAdapter(noteRowAdapter);
+        } else {
+            // Adicione uma mensagem de log para identificar a origem do problema
+            Log.e("MainActivity", "notesListView é nulo");
+        }
+        notes_list.setAdapter(noteRowAdapter);
     }
 
 

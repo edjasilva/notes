@@ -12,6 +12,7 @@ import android.widget.EditText;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import pt.iade.edjasilva.notes.models.NoteItem;
 
@@ -59,8 +60,15 @@ public class NoteActivity extends AppCompatActivity {
 
            finish();
             return true;
+
+
+
         } else if (item.getItemId()==R.id.action_delete_notes) {
-            finish();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("position", this.listPosition);
+            setResult(MainActivity.RESULT_DELETE, returnIntent);
+
+            finish(); // This will close the current activity and go back to MainActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -81,15 +89,13 @@ public class NoteActivity extends AppCompatActivity {
         title_edit.setText(item.getTitle());
         notes_edit.setText(item.getContent());
         // Formatando LocalDateTime para String usando DateTimeFormatter
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String formattedModifiedDate = formatter.format(item.getModifiedDate());
-        date_text.setText(formattedModifiedDate);
+        date_text.setText(new SimpleDateFormat("dd-MM-yyyy").format(item.getModifiedDate().getTime()));
 
 
     }
     protected void commitView(){
         item.setTitle(title_edit.getText().toString());
         item.setContent(notes_edit.getText().toString());
-        item.setModifiedDate((Date) date_text.getText());
+        item.setModifiedDate(new GregorianCalendar());
     }
 }

@@ -27,7 +27,7 @@ import pt.iade.edjasilva.notes.models.NoteItem;
             clickListener = null;
         }
 
-        public void setOnClickListener(ViewHolder.ItemClickListener listener) {
+        public void setOnClickListener(ItemClickListener listener) {
             clickListener = listener;
         }
 
@@ -54,13 +54,12 @@ import pt.iade.edjasilva.notes.models.NoteItem;
 
             holder.titleLabel.setText(item.getTitle());
             holder.notesLabel.setText(item.getContent());
-            holder.dateLabel.setText(item.getContent());
-
 
         }
 
         @Override
         public int getItemCount() {
+
             return items.size();
         }
 
@@ -69,7 +68,7 @@ import pt.iade.edjasilva.notes.models.NoteItem;
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public TextView titleLabel;
             public TextView notesLabel;
-            public TextView dateLabel;
+
 
             /**
              * Sets up the view that was inflated.
@@ -82,7 +81,7 @@ import pt.iade.edjasilva.notes.models.NoteItem;
                 // Get the components in the view.
                 titleLabel = itemView.findViewById(R.id.titleLabel);
                 notesLabel = itemView.findViewById(R.id.notesLabel);
-                dateLabel = itemView.findViewById(R.id.dateLabel);
+
 
                 // Set what happens when the view gets clicked.
                 itemView.setOnClickListener(this);
@@ -99,9 +98,10 @@ import pt.iade.edjasilva.notes.models.NoteItem;
                 }
             }
 
-            public interface ItemClickListener {
-                void onItemClick(View view, int position);
+
             }
 
+        public interface ItemClickListener {
+            void onItemClick(View view, int position);
         }
     }
