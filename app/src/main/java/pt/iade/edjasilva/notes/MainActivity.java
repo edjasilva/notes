@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // pegar as listas do websserver
-
-        itemsList= NoteItem.List();
 
         setupComponents();
     }
@@ -95,29 +92,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupComponents(){
         setSupportActionBar(findViewById(R.id.toolbar));
-        notes_list = findViewById(R.id.notes_list);
-        notes_list.setLayoutManager(new LinearLayoutManager(this));
 
-
-        // Set up row adapter with our items list.
-        noteRowAdapter = new NoteItemAdapter(MainActivity.this, itemsList);
-        noteRowAdapter.setOnClickListener(new NoteItemAdapter.ItemClickListener() {
+        // pegar as listas do websserver
+        NoteItem.List(new NoteItem.ListResponse() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent= new Intent(MainActivity.this,NoteActivity.class);
-                intent.putExtra("position", position);
-                intent.putExtra("item", itemsList.get(position));
-                startActivityForResult(intent, EDITOR_ACTIVITY_RETURN_ID);
+            public void response(ArrayList<NoteItem> items) {
+                itemsList = items;
 
+                // Set up row adapter with our items list.
+                noteRowAdapter = new NoteItemAdapter(MainActivity.this, itemsList);
+                noteRowAdapter.setOnClickListener(new NoteItemAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent= new Intent(MainActivity.this,NoteActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putExtra("item", itemsList.get(position));
+                        startActivityForResult(intent, EDITOR_ACTIVITY_RETURN_ID);
+
+                    }
+                });
+
+                notes_list = findViewById(R.id.notes_list);
+                notes_list.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                notes_list.setAdapter(noteRowAdapter);
             }
         });
-        if (notes_list != null) {
-            notes_list.setAdapter(noteRowAdapter);
-        } else {
-            // Adicione uma mensagem de log para identificar a origem do problema
-            Log.e("MainActivity", "notesListView é nulo");
-        }
-        notes_list.setAdapter(noteRowAdapter);
+
     }
 
 

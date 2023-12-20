@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -50,25 +51,32 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.action_save_notes){
             commitView();
-            this.item.save();
+            this.item.save(new NoteItem.SaveResponse() {
+                @Override
+                public void response() {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("position", NoteActivity.this.listPosition);
+                    returnIntent.putExtra("item", NoteActivity.this.item);
+                    setResult(AppCompatActivity.RESULT_OK, returnIntent);
 
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("position", this.listPosition);
-            returnIntent.putExtra("item", this.item);
-            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            });
 
-
-           finish();
             return true;
 
-
-
         } else if (item.getItemId()==R.id.action_delete_notes) {
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("position", this.listPosition);
-            setResult(MainActivity.RESULT_DELETE, returnIntent);
+            this.item.delete(new NoteItem.DeleteResponse() {
+                @Override
+                public void response() {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("position", NoteActivity.this.listPosition);
+                    setResult(MainActivity.RESULT_DELETE, returnIntent);
 
-            finish(); // This will close the current activity and go back to MainActivity
+                    finish(); // This will close the current activity and go back to MainActivity
+                }
+            });
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -89,13 +97,13 @@ public class NoteActivity extends AppCompatActivity {
         title_edit.setText(item.getTitle());
         notes_edit.setText(item.getContent());
         // Formatando LocalDateTime para String usando DateTimeFormatter
-        date_text.setText(new SimpleDateFormat("dd-MM-yyyy").format(item.getModifiedDate().getTime()));
+        date_text.setText(item.getModifiedDate().toString());
 
 
     }
     protected void commitView(){
         item.setTitle(title_edit.getText().toString());
         item.setContent(notes_edit.getText().toString());
-        item.setModifiedDate(new GregorianCalendar());
+        item.setModifiedDate(LocalDate.now());
     }
 }
